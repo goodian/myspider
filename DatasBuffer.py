@@ -6,7 +6,7 @@
 #        Author: g.goodian@gmail.com
 #   Description: ---
 #        Create: 2018-12-06 11:18:01
-# Last Modified: 2018-12-07 15:54:04
+# Last Modified: 2018-12-07 17:10:58
 #
 
 
@@ -56,9 +56,25 @@ class DatasBuffer:
         tree = ET.parse(SYS_ROUTE_CONF);
         if not tree: return
 
-        root = tree.getroot()
+        data_list = tree.findall("data")
+        for d in data_list:
+            try:
+                href = d.attrib["href"]
+                title = d.attrib["title"]
+                t_str = d.attrib["timeDate"]
+            except Exception as e:
+                continue
+
+            self.add(Item(t_str, href, title))
 
     def load(self, f):
         with open(f) as fp:
             __parse_file(fp)
+
+    def __dump_file(self, fp):
+        pass
+
+    def dump(self, f):
+        with open(f) as fp:
+            __dump_file(fp)
 
